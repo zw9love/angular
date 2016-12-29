@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" onselectstart="return false">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/cssreset-min.css">
+    <link rel="stylesheet" href="css/style_recommend.css">
+    <link rel="stylesheet" href="css/style_home_common.css">
+</head>
+<body ng-app="myapp">
+    <div class="aside" ng-controller="asideCtrl">
+        <div class="login_head">
+            <a href="javascript:;"><img src="images/login.png" alt=""></a>
+            <span><a href="tpl/login.html">点击登录</a></span>
+        </div>
+        <ul>
+            <div ng-repeat="x in list">
+                <a ng-href="{{x.href}}">
+                    <li class="{{x.classname}}">
+                        <img ng-src="{{x.src}}">
+                        <span>{{x.name}}</span>
+
+                    </li>
+                </a>
+                <div class="line"></div>
+            </div>
+            <div>
+                <a href="javascript:;">
+                    <li quit>
+                        <img src="images/quit.png">
+                        <span>退出</span>
+
+                    </li>
+                </a>
+                <div class="line"></div>
+            </div>
+        </ul>
+    </div>
+
+    <div class="shadow">
+        <div class="model">
+            <div class="model_info">
+                <p>退出登录</p>
+                <p>退出当前账号，将不能同步收藏发布评论和分享等</p>
+            </div>
+            <div class="model_button">
+                <button class="cancel" >取消</button>
+                <button class="sure" >确定</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <div class="contain_shadow"></div>
+
+        <div class="header_contain" ng-controller="navCtrl">
+            <header class="media_header" >
+                    <a href="javascript:;" info><img src="images/nav.png" alt=""></a>
+                    <div class="media_header_info" id="wrapper"> 
+                        <ul id="scroller"  class="scroller"  mymax="{{max}}">
+                            <li ng-repeat="x in navMenu" class="{{x.classname}}" ng-click="click()" navrepeat-finish  data="{{x.name}}"><a href="{{x.url}}" ></a></li>
+                        </ul>
+                    </div>
+            </header>
+        </div>
+        
+        <div ng-view ng-controller="infoCtrl"></div>
+    
+
+    </div>
+</body>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/home_common.js"></script>
+</html>

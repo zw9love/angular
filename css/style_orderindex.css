@@ -1,0 +1,29 @@
+        /*搜索块更改*/
+        
+        .media_search{
+            border-radius: 30px;
+            border:1px solid #d3d3d3;
+            box-sizing:border-box;
+        }
+
+        .media_search>span:last-child{
+            width:0.8rem;
+            height: 0.8rem;
+            border-top:1px solid #999;
+            border-right:1px solid #999;
+            transform:rotate(45deg);
+            -webkit-transform:rotate(45deg);
+        }
+
+
+        @media (max-width: 480px){
+
+            .media_search>span{
+                font-size: 12px;
+            }
+
+            .media_search>span:last-child{
+                width:8px;
+                height: 8px;
+            }
+        }

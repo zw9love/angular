@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="wap-font-scale" content="no">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/cssreset-min.css">
+    <link rel="stylesheet" href="../css/style_common.css">
+    <link rel="stylesheet" href="../css/style_sugguestion.css">
+    
+</head>
+<body>
+    <div class="page_header">
+          <div class="back">
+              <img src="../images/back.png" alt="">
+          </div>
+          <span>意见反馈</span>
+    </div>
+
+    <div class="container">
+        <div class="sugguest_info">
+            <textarea name="" id="" placeholder="请留下您的宝贵意见..."></textarea>
+        </div>
+        <div class="sugguest_phone">
+            <input type="text" placeholder="联系方式：QQ、邮箱或手机" maxlength="11">
+        </div>
+
+        <p>您的联系方式有助于我们沟通和解决问题，仅工作人员可见</p>
+
+        <button class="commit">提交</button>
+    </div>
+
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/fastclick/1.0.0/fastclick.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+
+        //判断有没填写内容
+
+        $('.sugguest_phone>input').on('input',function(){
+            var str=$('.sugguest_info textarea').val();
+            var phone=$(this).val();
+            if(str.trim().length>0 && (/^1[34578]\d{9}$/.test(phone))){
+                $('button.commit').addClass('hover');
+            }else{
+                $('button.commit').removeClass('hover');
+            }
+        });
+
+    </script>
+</body>
+</html>

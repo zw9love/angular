@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="wap-font-scale" content="no">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/cssreset-min.css">
+    <link rel="stylesheet" href="../css/style_common.css">
+    <link rel="stylesheet" href="../css/style_order.css">
+    <link rel="stylesheet" href="../css/style_orderlist.css">
+</head>
+
+<body>
+    <div class="page_header">
+          <div class="back">
+              <img src="../images/back.png" alt="">
+          </div>
+          <span>我的订阅</span>
+    </div>
+    
+    <div class="add_container">
+        <a href="./subscribe.html">
+            <div class="media_search">
+                <div class="bottom"></div>
+                <div class="big_add">
+                    <div class="add">
+                         <span></span>
+                         <span></span>
+                    </div>
+                    <span>&nbsp;添加更多订阅号</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <p>暂无订阅内容</p>
+
+    
+    <div class="container">
+        <div class="main_order">
+                <a href="javascript:;"><img src="../images/orderlogo.png" alt="">
+                <span class="num">20</span>
+                </a>
+                
+                <div class="main_order_info">
+                    <p><a href="javascript:;">全民星探</a></p>
+                    <p>著名奶爸耍大牌经纪人一年四换，片场的话著名奶爸耍大牌经纪人一年四换，片场的话</p>
+                </div>
+                <span id="time">22:08</span>
+        </div>
+        <div class="line"></div>
+        <div class="main_order">
+                <a href="javascript:;"><img src="../images/orderlogo.png" alt="">
+                <span class="num">20</span>
+                </a>
+                
+                <div class="main_order_info">
+                    <p><a href="javascript:;">全民星探</a></p>
+                    <p>著名奶爸耍大牌经纪人一年四换，片场的话著名奶爸耍大牌经纪人一年四换，片场的话</p>
+                </div>
+                <span id="time">22:08</span>
+        </div>
+        <div class="line"></div>
+        <div class="main_order">
+                <a href="javascript:;"><img src="../images/orderlogo.png" alt="">
+                <span class="num">20</span>
+                </a>
+                
+                <div class="main_order_info">
+                    <p><a href="javascript:;">全民星探</a></p>
+                    <p>著名奶爸耍大牌经纪人一年四换，片场的话著名奶爸耍大牌经纪人一年四换，片场的话</p>
+                </div>
+                <span id="time">22:08</span>
+        </div>
+        <div class="line"></div>
+        <div class="main_order">
+                <a href="javascript:;"><img src="../images/orderlogo.png" alt="">
+                <span class="num">20</span>
+                </a>
+                
+                <div class="main_order_info">
+                    <p><a href="javascript:;">全民星探</a></p>
+                    <p>著名奶爸耍大牌经纪人一年四换，片场的话著名奶爸耍大牌经纪人一年四换，片场的话</p>
+                </div>
+                <span id="time">22:08</span>
+        </div>
+        <div class="line"></div>
+    </div>
+
+
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/fastclick/1.0.0/fastclick.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+
+        // 判断有无订阅号
+        if($('.container .main_order').length==0){
+            $('.container').addClass('hide');
+            $('body>p').addClass('show');
+        }
+
+        console.log(navigator.platform.indexOf('Win'));
+
+        // 判断安卓还是ios
+        if(navigator.platform!="iPhone" && $(window).width()<=480 && navigator.platform.indexOf('Win')<0)
+        {
+            $('.media_search').css({
+                'line-height':'32px'
+            });
+        }
+    </script>
+</body>
+</html>
