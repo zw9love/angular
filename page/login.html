@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="myapp" ng-controller="bigCtrl" >
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta charset="UTF-8">
@@ -8,11 +8,10 @@
     <link rel="stylesheet" href="../css/cssreset-min.css">
     <link rel="stylesheet" href="../css/style_common.css">
     <link rel="stylesheet" href="../css/style_login.css">
-
 </head>
 <body>
     <div class="page_header">
-          <div class="back">
+          <div class="back" ng-click="back()">
               <img src="../images/back.png" alt="">
           </div>
 
@@ -39,9 +38,6 @@
         </div>
 
     </div>
-
-    <script src="../js/jquery-2.1.4.min.js"></script>
-    <script src="http://apps.bdimg.com/libs/fastclick/1.0.0/fastclick.min.js"></script>
+    <script src="../js/angular.min.js"></script>
     <script src="../js/common.js"></script>
-    
 </html>

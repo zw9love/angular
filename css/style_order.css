@@ -113,6 +113,40 @@
         width:100%;
     }
 
+    /*模态框*/
+    .modal{
+        width:26.04%;
+        padding-top:10.41%;
+        position:fixed;
+        left:50%;
+        top:50%;
+        transform:translate(-50%,-50%);
+        -webkit-transform:translate(-50%,-50%);
+        background: rgba(41,43,44,0.6);
+        border-radius: 10px;
+        max-width: 200px;
+        z-index: -1;
+        opacity: 0;
+        transition:all 0.5s ease 0s;
+        -webkit-transition:all 0.5s ease 0s;
+    }
+
+    .modal>div{
+        position: absolute;
+        width: 100%;
+        top:50%;
+        transform:translateY(-50%);
+        -webkit-transform:translateY(-50%);
+        font-size: 1.7rem;
+        color:#fff;
+        text-align: center;
+    }
+
+    .fade-in{
+        opacity: 1;
+        z-index: 10000;
+    }
+
 
 
     @media (max-width: 480px){

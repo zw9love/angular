@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="myapp" ng-controller="bigCtrl" >
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta charset="UTF-8">
@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="../css/style_edit.css">
     
 </head>
-<body>
-    <div class="page_header">
-          <div class="back">
+<body ng-controller="mainCtrl" dom>
+    <div class="page_header" header>
+          <div class="back" ng-click="back()">
               <img src="../images/back.png" alt="">
           </div>
           <span>我的收藏</span>
@@ -24,8 +24,8 @@
         <div class="model">
             <p>是否删除这条收藏？</p>
             <div>
-                <button class="cancel">取消</button>
-                <button class="sure">确定</button>
+                <button class="cancel" ng-click="cancel()">取消</button>
+                <button class="sure" ng-click="sure()">确定</button>
             </div>
         </div>
     </div>
@@ -151,10 +151,8 @@
         </div>
     </div>
     </div>
-    <script src="../js/jquery-2.1.4.min.js"></script>
-    <script src="http://apps.bdimg.com/libs/fastclick/1.0.0/fastclick.min.js"></script>
+    <script src="../js/angular.min.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/edit.js"></script>
-
 </body>
 </html>

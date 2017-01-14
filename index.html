@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/cssreset-min.css">
     <link rel="stylesheet" href="css/style_recommend.css">
     <link rel="stylesheet" href="css/style_home_common.css">
+    <link rel="stylesheet" href="css/style_menu.css">
 </head>
 <body ng-app="myapp">
     <div class="aside" ng-controller="asideCtrl">
@@ -60,19 +61,19 @@
                     <a href="javascript:;" info><img src="images/nav.png" alt=""></a>
                     <div class="media_header_info" id="wrapper"> 
                         <ul id="scroller"  class="scroller"  mymax="{{max}}">
-                            <li ng-repeat="x in navMenu" class="{{x.classname}}" ng-click="click()" navrepeat-finish  data="{{x.name}}"><a href="{{x.url}}" ></a></li>
+                            <li ng-repeat="x in navMenu" class="{{x.classname}}" ng-click="click()" navrepeat-finish  data="{{x.name}}"><a href="" ui-sref="{{x.url}}" ></a></li>
                         </ul>
                     </div>
             </header>
         </div>
         
-        <div ng-view ng-controller="infoCtrl"></div>
+        <div ui-view="view1"></div>
+        <div ui-view="view2"></div>
     
-
     </div>
 </body>
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/angular.min.js"></script>
-    <script src="js/angular-route.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
     <script src="js/home_common.js"></script>
 </html>

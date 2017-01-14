@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="myapp" ng-controller="bigCtrl" >
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
 
 <body>
     <div class="page_header">
-          <div class="back">
+          <div class="back" ng-click="back()">
               <img src="../images/back.png" alt="">
           </div>
           <span>我的订阅</span>
@@ -37,7 +37,7 @@
     <p>暂无订阅内容</p>
 
     
-    <div class="container">
+    <div class="container" orderlist>
         <div class="main_order">
                 <a href="javascript:;"><img src="../images/orderlogo.png" alt="">
                 <span class="num">20</span>
@@ -88,27 +88,7 @@
         <div class="line"></div>
     </div>
 
-
-    <script src="../js/jquery-2.1.4.min.js"></script>
-    <script src="http://apps.bdimg.com/libs/fastclick/1.0.0/fastclick.min.js"></script>
+    <script src="../js/angular.min.js"></script>
     <script src="../js/common.js"></script>
-    <script>
-
-        // 判断有无订阅号
-        if($('.container .main_order').length==0){
-            $('.container').addClass('hide');
-            $('body>p').addClass('show');
-        }
-
-        console.log(navigator.platform.indexOf('Win'));
-
-        // 判断安卓还是ios
-        if(navigator.platform!="iPhone" && $(window).width()<=480 && navigator.platform.indexOf('Win')<0)
-        {
-            $('.media_search').css({
-                'line-height':'32px'
-            });
-        }
-    </script>
 </body>
 </html>

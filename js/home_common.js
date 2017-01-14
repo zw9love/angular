@@ -1,59 +1,51 @@
 (function(){    
 
-    var app=angular.module('myapp',['ngRoute'],function($routeProvider){
-
-        $routeProvider.when('/',{
-
-            templateUrl:'tpl/comment.html'
-        }).when('/industry',{
-
-            templateUrl:'tpl/industry.html'
-        }).when('/order',{
-
-            templateUrl:'tpl/order.html'
-        });
-
-    });
-
-    //主内容控制器
-    app.controller('infoCtrl',function($scope){
-        
-    });    
+    var app=angular.module('myapp',['ui.router']);
+   
+    var now=0;
 
     //行业页面控制器
     app.controller('industryCtrl',function($scope){
 
         $scope.sum=0;
         $scope.max=0;
+        $scope.flag=true;
 
         $scope.menu=[
         {
             name:'咨询',
-            classname:'menucurrent'
+            classname:'menucurrent',
+            url:'menu1'
         },
         {
             name:'人物',
-            classname:''
+            classname:'',
+            url:'menu2'
         },
         {
             name:'买手',
-            classname:''
+            classname:'',
+            url:'menu3'
         },
         {
             name:'设计师',
-            classname:''
+            classname:'',
+            url:'menu1'
         },
         {
             name:'贺喜时尚1',
-            classname:''
+            classname:'',
+            url:'menu2'
         },
         {
             name:'贺喜时尚2',
-            classname:''
+            classname:'',
+            url:'menu3'
         },
         {
             name:'贺喜时尚3',
-            classname:''
+            classname:'',
+            url:'menu1'
         }];
 
         $scope.click=function(){
@@ -79,57 +71,56 @@
         $scope.navMenu=[{
             name:'推荐',
             classname:'current',
-            url:'#/'
+            url:'index'
         },
         {
             name:'行业',
             classname:'',
-            url:'#/industry'
+            url:'industry'
         },
         {
             name:'订阅',
             classname:'',
-            url:'#/order'
+            url:'order'
         },
         {
             name:'时尚',
             classname:'',
-            url:'#/'
+            url:'index'
         },
         {
             name:'美妆',
             classname:'',
-            url:'#/'
+            url:'index'
         },
         {
             name:'推荐',
             classname:'',
-            url:'#/'
+            url:'index'
         },
         {
             name:'行业',
             classname:'',
-            url:'#/'
+            url:'index'
         },
         {
             name:'订阅1',
             classname:'',
-            url:'#/'
+            url:'index'
         },
         {
             name:'订阅2',
             classname:'',
-            url:'#/'
+            url:'index'
         },
         {
             name:'订阅3',
             classname:'',
-            url:'#/'
+            url:'index'
         }];
 
         $scope.click=function(){
             var index=this.$index;
-            // console.log(index);
             angular.forEach($scope.navMenu,function(val,key){
                 if(key==index){
                     val.classname="current";
@@ -139,6 +130,47 @@
             });
         };
     });
+
+    app.config(function($stateProvider,$urlRouterProvider){
+        $urlRouterProvider.otherwise('/index');
+        $stateProvider
+        .state('index',{
+            views: {
+                "view1":{templateUrl:'tpl/comment.html'}
+            },
+            url:'/index'
+        })
+        .state('industry',{
+            views: {
+                "view1":{templateUrl:'tpl/industry.html'},
+                "view2":{templateUrl:'tpl/menu1.html'}
+            }
+        })
+        .state('order',{
+            views: {
+                "view1":{templateUrl:'tpl/order.html'}
+            }
+        })
+        .state('menu1',{
+            views: {
+                "view1":{templateUrl:'tpl/industry.html'},
+                "view2":{templateUrl:'tpl/menu1.html'}
+            }
+        })
+        .state('menu2',{
+            views: {
+                "view1":{templateUrl:'tpl/industry.html'},
+                "view2":{templateUrl:'tpl/menu2.html'}
+            }
+        })
+        .state('menu3',{
+            views: {
+                "view1":{templateUrl:'tpl/industry.html'},
+                "view2":{templateUrl:'tpl/menu3.html'}
+            }
+        })
+    });
+
 
     app.controller('asideCtrl',function($scope){
         $scope.list=[{
@@ -165,32 +197,36 @@
 
     });
 
-    //quit按钮的指令
-    app.directive('quit',function(){
-        return {
-            restrict:'A',
-            link: function(scope,element,attr){
-                element.on('click',function(){
-                    element.parents('html,body').addClass('noscroll');
-                    element.parents('.aside').siblings('.shadow').addClass('show');
-                });
-            }
-        }
-    });
+    // var arr={
+    //     'name':'大熊',
+    //     'age':30,
+    //     'sex':'男'
+    // };
+    // for(var i in arr){
+    //     console.log(arr[i]);
+    // };
 
 
-    //scroller按钮的指令
-    app.directive('scroller',function(){
-        return {
-            restrict:'C',
-            link: function(scope,element,attr){
-                element.css({
-                    'transform':'translateX(0px)',
-                    '-webkit-transform':'translateX(0px)'
-                });
-            }   
+    //指令函数
+    function directive(dom,fn){
+        for(var i in dom){
+            app.directive(dom[i],function(){
+                return {
+                    restrict:'ECMA',
+                    link: fn
+                }
+            });
         }
+        
+    }
+
+    directive(['quit'],function(scope,element,attr){
+        element.on('click',function(){
+            element.parents('html,body').addClass('noscroll');
+            element.parents('.aside').siblings('.shadow').addClass('show');
+        });
     });
+
 
     //自定义指令navrepeatFinish
     app.directive('navrepeatFinish',function(){
@@ -198,13 +234,14 @@
             link: function(scope,element,attr){
                 //nav滑动事件初始化工作
                 element.find('a').text(attr.data);
-                var w=element.outerWidth();
+                var w=element.width();
                 var margin=parseInt(element.css('margin-right'));
                 var all=w+margin;
                 scope.$parent.sum+=all;
-
+                // console.log(w);
                 //当nav的li循环结束
                 if(scope.$last){
+                    // console.log(scope.$parent.sum);
                     element.parent().width(scope.$parent.sum+15);
                     scope.$parent.max=scope.$parent.sum-element.parents('#wrapper').width();
 
@@ -223,10 +260,36 @@
                         }
                         self.attr('myleft',dis);
                     });
+
+                    if(scope.flag){
+
+                        var obj=element.parent().find('li').eq(now);
+                        var left=obj.parents('#wrapper').width()/2;
+                        var max=Number(obj.parent().attr('mymax'));
+                        obj.parent().removeAttr('class');
+                        var dis=obj.attr('myleft');
+                        obj.parent().css({
+                            'transform':'translateX('+dis+'px)',
+                            '-webkit-transform':'translateX('+dis+'px)'
+                        });
+
+                        angular.forEach(scope.menu,function(val,key){
+                            if(key==now){
+                                val.classname="menucurrent";
+                            }else{
+                                val.classname="";
+                            }
+                        });
+                        
+                    }
                 }
 
                 //nav块的点击事件
                 element.on('click',function(){
+                    if(scope.flag==true){
+                        now=scope.$index;
+                        // alert(now);
+                    }
                     var index=element.index();
                     var left=element.parents('#wrapper').width()/2;
                     var max=Number(element.parent().attr('mymax'));
@@ -240,163 +303,164 @@
             }
         }
     });
-    
+
+
     //scroller按钮的指令
-    app.directive('scroller',function(){
-        return {
-            restrict:'C',
-            link: function(scope,element,attr){
+    directive(['scroller'],function(scope,element,attr){
+        //初始化
+        element.css({
+            'transform':'translateX(0px)',
+            '-webkit-transform':'translateX(0px)'
+        });
 
-                //拖拽
-                element.on('mousedown',function(e){
-                    element.removeAttr('class');
-                    var max=Number(element.attr('mymax'));
-                    var translate=this.style['transform'];
-                    var index1=translate.indexOf('(');
-                    var index2=translate.indexOf('p');
-                    var now=parseInt(translate.slice(index1+1,index2));
-                    var x1=e.clientX;
-                    var start=new Date().getTime();
+        //拖拽
+        element.on('mousedown',function(e){
+            element.removeAttr('class');
+            var max=Number(element.attr('mymax'));
+            var translate=this.style['transform'];
+            var index1=translate.indexOf('(');
+            var index2=translate.indexOf('p');
+            var now=parseInt(translate.slice(index1+1,index2));
+            var x1=e.clientX;
+            var start=new Date().getTime();
 
-                    element.on('mousemove',function(e){
-                        var x2=e.clientX;
-                        var dis=x2-x1+now;
-                        if(dis>0){
-                            dis=0;
-                        }
+            element.on('mousemove',function(e){
+                var x2=e.clientX;
+                var dis=x2-x1+now;
+                if(dis>0){
+                    dis=0;
+                }
 
-                        if(dis<-max){
-                            dis=-max;
-                        }
+                if(dis<-max){
+                    dis=-max;
+                }
 
-                        element.css({
-                            'transform':'translateX('+dis+'px)',
-                            '-webkit-transform':'translateX('+dis+'px)'
-                        });
-                    });
-
-                    element.on('mouseup',function(e){
-                        element.addClass('scroller1');
-                        element.off('mousemove');
-                        element.off('mouseup');
-                        var end=new Date().getTime();
-                        var x3=e.clientX;
-                        var time=end-start;
-                        var translate=this.style['transform'];
-                        var index1=translate.indexOf('(');
-                        var index2=translate.indexOf('p');
-                        var now=parseInt(translate.slice(index1+1,index2));
-
-                        // 说明用户很急
-                        if(time<200 && Math.abs(x3-x1)>=20){
-                            // $(this).addClass('scroller1');
-                            if(x3-x1>0){
-                                element.css({
-                                    'transform':'translateX(0px)',
-                                    '-webkit-transform':'translateX(0px)'
-                                });
-                            }else{
-                                element.css({
-                                    'transform':'translateX('+(-max)+'px)',
-                                    '-webkit-transform':'translateX('+(-max)+'px)'
-                                });
-                            }
-                        }else{
-                            // $(this).addClass('scroller2');
-                            var val=now+(x3-x1)*0.8;
-                            if(val>0){
-                                val=0;
-                            }
-                            if(val<-max){
-                                val=-max;
-                            }
-
-                            element.css({
-                                'transform':'translateX('+val+'px)',
-                                '-webkit-transform':'translateX('+val+'px)'
-                            });
-                        }
-                    });
-
-                    element.on('mouseleave',function(){
-                        element.trigger('mouseup');
-                    });
+                element.css({
+                    'transform':'translateX('+dis+'px)',
+                    '-webkit-transform':'translateX('+dis+'px)'
                 });
-                
-                //触摸滑动
-                element.on('touchstart',function(e){
-                    element.removeAttr('class');
-                    var max=Number(element.attr('mymax'));
-                    var translate=this.style['transform'];
-                    var index1=translate.indexOf('(');
-                    var index2=translate.indexOf('p');
-                    var now=parseInt(translate.slice(index1+1,index2));
-                    var x1=e.originalEvent.changedTouches[0].clientX;
-                    var start=new Date().getTime();
+            });
 
-                    element.on('touchmove',function(e){
-                        var x2=e.originalEvent.changedTouches[0].clientX;
-                        var dis=x2-x1+now;
-                        if(dis>0){
-                            dis=0;
-                        }
+            element.on('mouseup',function(e){
+                element.addClass('scroller1');
+                element.off('mousemove');
+                element.off('mouseup');
+                var end=new Date().getTime();
+                var x3=e.clientX;
+                var time=end-start;
+                var translate=this.style['transform'];
+                var index1=translate.indexOf('(');
+                var index2=translate.indexOf('p');
+                var now=parseInt(translate.slice(index1+1,index2));
 
-                        if(dis<-max){
-                            dis=-max;
-                        }
-
+                // 说明用户很急
+                if(time<200 && Math.abs(x3-x1)>=20){
+                    // $(this).addClass('scroller1');
+                    if(x3-x1>0){
                         element.css({
-                            'transform':'translateX('+dis+'px)',
-                            '-webkit-transform':'translateX('+dis+'px)'
+                            'transform':'translateX(0px)',
+                            '-webkit-transform':'translateX(0px)'
                         });
+                    }else{
+                        element.css({
+                            'transform':'translateX('+(-max)+'px)',
+                            '-webkit-transform':'translateX('+(-max)+'px)'
+                        });
+                    }
+                }else{
+                    // $(this).addClass('scroller2');
+                    var val=now+(x3-x1)*0.8;
+                    if(val>0){
+                        val=0;
+                    }
+                    if(val<-max){
+                        val=-max;
+                    }
+
+                    element.css({
+                        'transform':'translateX('+val+'px)',
+                        '-webkit-transform':'translateX('+val+'px)'
                     });
+                }
+            });
 
-                    element.on('touchend',function(e){
-                        element.addClass('scroller1');
-                        element.off('touchmove');
-                        element.off('touchend');
-                        var end=new Date().getTime();
-                        var x3=e.originalEvent.changedTouches[0].clientX;
-                        var time=end-start;
-                        var translate=this.style['transform'];
-                        var index1=translate.indexOf('(');
-                        var index2=translate.indexOf('p');
-                        var now=parseInt(translate.slice(index1+1,index2));
+            element.on('mouseleave',function(){
+                element.trigger('mouseup');
+            });
+        });
+        
+        //触摸滑动
+        element.on('touchstart',function(e){
+            element.removeAttr('class');
+            var max=Number(element.attr('mymax'));
+            var translate=this.style['transform'];
+            var index1=translate.indexOf('(');
+            var index2=translate.indexOf('p');
+            var now=parseInt(translate.slice(index1+1,index2));
+            var x1=e.originalEvent.changedTouches[0].clientX;
+            var start=new Date().getTime();
 
-                        // 说明用户很急
-                        if(time<200 && Math.abs(x3-x1)>=20){
-                            // $(this).addClass('scroller1');
-                            if(x3-x1>0){
-                                element.css({
-                                    'transform':'translateX(0px)',
-                                    '-webkit-transform':'translateX(0px)'
-                                });
-                            }else{
-                                element.css({
-                                    'transform':'translateX('+(-max)+'px)',
-                                    '-webkit-transform':'translateX('+(-max)+'px)'
-                                });
-                            }
-                        }else{
-                            // $(this).addClass('scroller2');
-                            var val=now+(x3-x1)*0.8;
-                            if(val>0){
-                                val=0;
-                            }
-                            if(val<-max){
-                                val=-max;
-                            }
+            element.on('touchmove',function(e){
+                var x2=e.originalEvent.changedTouches[0].clientX;
+                var dis=x2-x1+now;
+                if(dis>0){
+                    dis=0;
+                }
 
-                            element.css({
-                                'transform':'translateX('+val+'px)',
-                                '-webkit-transform':'translateX('+val+'px)'
-                            });
-                        }
-                    });
+                if(dis<-max){
+                    dis=-max;
+                }
 
+                element.css({
+                    'transform':'translateX('+dis+'px)',
+                    '-webkit-transform':'translateX('+dis+'px)'
                 });
-            }   
-        }
+            });
+
+            element.on('touchend',function(e){
+                element.addClass('scroller1');
+                element.off('touchmove');
+                element.off('touchend');
+                var end=new Date().getTime();
+                var x3=e.originalEvent.changedTouches[0].clientX;
+                var time=end-start;
+                var translate=this.style['transform'];
+                var index1=translate.indexOf('(');
+                var index2=translate.indexOf('p');
+                var now=parseInt(translate.slice(index1+1,index2));
+
+                // 说明用户很急
+                if(time<200 && Math.abs(x3-x1)>=20){
+                    // $(this).addClass('scroller1');
+                    if(x3-x1>0){
+                        element.css({
+                            'transform':'translateX(0px)',
+                            '-webkit-transform':'translateX(0px)'
+                        });
+                    }else{
+                        element.css({
+                            'transform':'translateX('+(-max)+'px)',
+                            '-webkit-transform':'translateX('+(-max)+'px)'
+                        });
+                    }
+                }else{
+                    // $(this).addClass('scroller2');
+                    var val=now+(x3-x1)*0.8;
+                    if(val>0){
+                        val=0;
+                    }
+                    if(val<-max){
+                        val=-max;
+                    }
+
+                    element.css({
+                        'transform':'translateX('+val+'px)',
+                        '-webkit-transform':'translateX('+val+'px)'
+                    });
+                }
+            });
+
+        });
     });
 
 
@@ -404,41 +468,29 @@
     app.controller('commentCtrl',function($scope){
         //点击搜索框
         $scope.searchClick=function(){
-            window.location.href="page/search.html";
+            location.href="page/search.html";
         };
     });
 
-
     //info按钮的指令
-    app.directive('info',function(){
-        return {
-            restrict:'A',
-            link: function(scope,element,attr){
-                element.on('click',function(e){
-                    e.stopPropagation();
-                    element.parents('.container').siblings('.aside').toggleClass('go_aside');
-                    element.parents('.container').toggleClass('go_contain');
-                    element.parents('.header_contain').siblings('.contain_shadow').toggleClass('go_shadow');
-                });
-            }   
-        }
+    directive(['info'],function(scope,element,attr){
+        element.on('click',function(e){
+            e.stopPropagation();
+            element.parents('.container').siblings('.aside').toggleClass('go_aside');
+            element.parents('.container').toggleClass('go_contain');
+            element.parents('.header_contain').siblings('.contain_shadow').toggleClass('go_shadow');
+        });
     });
 
     //container按钮的指令
-    app.directive('container',function(){
-        return {
-            restrict:'C',
-            link: function(scope,element,attr){
-                element.on('click',function(e){
-                    element.parents('html,body').removeClass('noscroll');
-                    element.siblings('.aside').removeClass('go_aside');
-                    element.removeClass('go_contain');
-                    element.find('.contain_shadow').removeClass('go_shadow');
-                });
-            }   
-        }
+    directive(['container'],function(scope,element,attr){
+        element.on('click',function(e){
+            element.parents('html,body').removeClass('noscroll');
+            element.siblings('.aside').removeClass('go_aside');
+            element.removeClass('go_contain');
+            element.find('.contain_shadow').removeClass('go_shadow');
+        });
     });
-
 
 
 
@@ -488,32 +540,13 @@
             }   
         }
     });
-
-
-    //sure按钮的指令
-    app.directive('sure',function(){
-        return {
-            restrict:'C',
-            link: function(scope,element,attr){
-                    element.on('click',function(){
-                    element.parents('html,body').removeClass('noscroll');
-                    element.parents('.shadow').removeClass('show');
-                    });
-            }
-        }
-    });
-
-    //cancel按钮的指令
-    app.directive('cancel',function(){
-        return {
-            restrict:'C',
-            link: function(scope,element,attr){
-                    element.on('click',function(){
-                    element.parents('html,body').removeClass('noscroll');
-                    element.parents('.shadow').removeClass('show');
-                    });
-            }
-        }
+    
+    //sure和cancel按钮的指令
+    directive(['sure','cancel'],function(scope,element,attr){
+        element.on('click',function(){
+            element.parents('html,body').removeClass('noscroll');
+            element.parents('.shadow').removeClass('show');
+        });
     });
 
 })();

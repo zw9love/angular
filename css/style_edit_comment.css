@@ -1,0 +1,26 @@
+    /*订阅块的样式*/
+
+    .main_order{
+        margin-top:0px;
+    }
+
+
+    /*评论块的样式(相对于详情页面的有所修改)*/
+
+    .comment{
+
+        margin-top:2.5rem;
+    }
+
+    .comment_left{
+
+        height:4rem;
+        padding-top: 0;
+
+    }
+
+    .comment_left>div{
+        
+        height: 55%;
+        
+    }

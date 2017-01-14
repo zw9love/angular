@@ -1,49 +1,113 @@
     (function(){
-        //点击编辑按钮的时候
-        $('.page_header>span.move a').click(function(){
 
-            $('.comment_left').toggleClass('show');
-            var haveShow=$('.comment_left').hasClass('show');
-            if(haveShow){
-                $(this).text('取消');
-            }else{
-                $(this).text('编辑');
+        app.controller('mainCtrl',function($scope){
+            $scope.obj=null;
+            $scope.arr=[];
+            $scope.html=null;
+            $scope.body=null;
+            $scope.shadow=null;
+            $scope.move=null;
+            $scope.noComment=null;
+            $scope.kid=[];
+
+            $scope.sure=function(){
+                $scope.shadow.removeClass('show');
+                $scope.html.removeClass('noscroll');
+                $scope.body.removeClass('noscroll');
+                var father=$scope.obj.parent().parent();
+                $scope.obj.parent().remove();
+                if(father.children().length==0){
+                    $scope.move.css('opacity',0);
+                    $scope.noComment.addClass('show');
+                }
+            };
+
+            $scope.cancel=function(){
+                $scope.shadow.removeClass('show');
+                $scope.html.removeClass('noscroll');
+                $scope.body.removeClass('noscroll');
+            };
+
+        });
+
+        //把commentLeft推进数组里面去
+        app.directive('commentLeft',function(){
+            return {
+                restrict:'C',
+                link:function(scope,element,attr){
+                    scope.arr.push(element);
+                    element.bind('click',function(){
+                        scope.shadow.addClass('show');
+                        scope.obj=element;
+                        scope.html.addClass('noscroll');
+                        scope.body.addClass('noscroll');
+                        // console.log(scope.obj);
+                    });
+                }
+            };
+        });
+
+        //header按钮的指令
+        app.directive('header',function(){
+            return {
+                link: function(scope,element,attr){
+                    var self=element.children().eq(2);
+                    scope.move=self;
+                    self.bind('click',function(){
+                        angular.forEach(scope.arr,function(val,key){
+                            val.toggleClass('show');
+                        });
+                        var haveShow=scope.arr[0].hasClass('show');
+                        if(haveShow){
+                            self.children().text('取消');
+                        }else{
+                            self.children().text('编辑');
+                        }
+                    });
+                }   
             }
         });
 
-
-        //点击删除按钮的时候
-        var obj=null;
-        $('.comment_left').click(function(){
-            $('.shadow').addClass('show');
-            obj=$(this).parent();
-            $('html,body').addClass('noscroll');
+        //body的指令
+        app.directive('dom',function(){
+            return {
+                link:function(scope,element,attr){
+                    scope.html=element.parent();
+                    scope.body=element;
+                    scope.shadow=element.children().eq(1);
+                    scope.noComment=element.children().eq(2);
+                }
+            };
         });
 
-
-        //点击取消按钮的时候
-        $('button.cancel').click(function(){
-            $('.shadow').removeClass('show');
-            $('html,body').removeClass('noscroll');
-        });
-
-
-        //点击确定按钮的时候
-        $('button.sure').click(function(){
-            $('.shadow').removeClass('show');
-            $('html,body').removeClass('noscroll');
-            obj.remove();
-            if($('.comment').length==0){
-                $('.no_comment').addClass('show');
-                $('.page_header>span.move').css({
-                    'opacity':0
-                });
+        //more按钮的指令
+        app.directive('more',function(){
+            return {
+                restrict:'A',
+                link: function(scope,element,attr){
+                    element.bind('click',function(){
+                        angular.forEach(scope.kid,function(val,key){
+                                val.removeClass('hide');
+                        });
+                        element.remove();
+                    });
+                }   
             }
         });
 
-        //模态框滑动的时候阻止浏览器的默认事件
-        // $('.shadow').on('touchstart',function(e){
-        //     e.preventDefault();
-        // });
+        //mainCommentOther按钮的指令
+        app.directive('mainCommentOther',function(){
+            return {
+                restrict:'C',
+                link: function(scope,element,attr){
+                    scope.kid.push(element.children());
+                    angular.forEach(element.children(),function(val,key){
+                         if(key>1){
+                            val.className="hide";
+                         }
+                    });
+                }   
+            }
+        });
 
     })();

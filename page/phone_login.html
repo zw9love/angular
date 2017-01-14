@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="myapp" ng-controller="bigCtrl" >
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta charset="UTF-8">
@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="../css/style_common.css">
     <link rel="stylesheet" href="../css/style_phone_login.css">
 </head>
-<body>
+<body ng-controller="phoneCtrl">
     <div class="page_header">
-          <div class="back">
+          <div class="back" ng-click="back()">
               <img src="../images/back.png" alt="">
           </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="model">
             <p>手机号码有误!!!</p>
             <div>
-                <button class="sure">确定</button>
+                <button class="sure" ng-click="sure()">确定</button>
             </div>
         </div>
     </div>
@@ -51,11 +51,8 @@
 
         </div>
     </div>
-
-    <script src="../js/jquery-2.1.4.min.js"></script>
-    <script src="http://apps.bdimg.com/libs/fastclick/1.0.0/fastclick.min.js"></script>
+    <script src="../js/angular.min.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/phone_login.js"></script>
-    
 </body>
 </html>
